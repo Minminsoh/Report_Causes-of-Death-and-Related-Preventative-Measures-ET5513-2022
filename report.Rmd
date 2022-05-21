@@ -1,0 +1,111 @@
+---
+title: "Causes of death"
+author:
+- familyname: Cheung
+  othernames: Yan Chui Lucia
+  address: Monash Universtidy
+  email: yche0164@student.monash.edu
+  correspondingauthor: true
+  qualifications:  Master of Business Analytics
+- familyname: Soh
+  othernames: Min Min
+  address: Monash Universtidy
+  email : mmsoh1@student.monash.edu
+  qualifications: Master of Business Analytics
+- familyname: Meer
+  othernames: Sanna
+  address: Monash University
+  email: smee0005@student.monash.edu
+  correspondingauthor: true
+  qualifications:  Master of Business Analytics
+- familyname: Imuan
+  othernames: Aphiaut
+  address: Monash Universtidy
+  email: aimu0001@student.monash.edu
+  correspondingauthor: true
+  qualifications:  Master of Business Analytics
+department: ETC5513 Group 4
+organization: Monash University
+bibliography: References.bib
+biblio-style: authoryear-comp
+linestretch: 1.5
+output:
+  bookdown::pdf_document2:
+    template: monashreport2.tex
+    fig_caption: yes
+    fig_height: 5
+    fig_width: 8
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
+    number_sections: yes
+    citation_package: biblatex
+    toc: false
+---
+
+```{r , echo = FALSE, message = FALSE, warning = FALSE}
+# Libraries
+library(tidyverse)
+library(readr)
+library(kableExtra)
+library(bookdown)
+library(gridExtra)
+library(tinytex)
+library(knitr)
+```
+
+
+# Introduction 
+
+
+
+# Library used
+
+The library packages used in our research consist of: 
+
+- tidyverse (@tidyverse)
+- readr (@readr)
+- kableExtra  (@kableExtra)
+- Bookdown (@bookdown @bookdown1)
+- gridExtra (@gridExtra)
+- Tinytex (@tinytex @tinytex1)
+- Knitr (@knitr @knitr1)
+
+```{r readdata, , echo = FALSE, message = FALSE, warning = FALSE}
+Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
+
+```
+
+\clearpage
+
+\section*{}
+
+## YanChuiLucia_Cheung
+
+
+## MinMin_Soh
+
+
+\clearpage
+
+
+
+\clearpage
+
+\section*{}
+
+## Sanna_Meer
+
+
+
+\section*{}
+
+## Aphiaut_Imuan 
+
+
+\clearpage
+
+# Conclusion :
+
+
+\clearpage
