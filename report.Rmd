@@ -74,6 +74,8 @@ The library packages used in our research consist of:
 ```{r readdata, , echo = FALSE, message = FALSE, warning = FALSE}
 Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
+names(Data)
+
 ```
 
 \clearpage
@@ -81,6 +83,75 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 \section*{}
 
 ## YanChuiLucia_Cheung
+
+```{r worldtrend, echo = FALSE, preserve = TRUE, fig.cap ="Malaria world trend"}
+
+malaria_data <- Data %>%
+  select(Entity, Year, "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
+  rename(Malaria = "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
+  rename(Country = Entity) %>%
+  filter(Year >= 2000) 
+
+malaria_world<- malaria_data %>%
+  filter(Country == "World") 
+
+ggplot(malaria_world, aes( x = Year, y = Malaria)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::comma) + ggtitle("Malaria world trend")
+
+```
+
+Figure \@ref(fig:worldtrend) shows the world trend of malaria death rate across 2000 to 2019. The downward trend of malaria death rate could be the result of the increase in malaria program funding from 960 million US dollar in 2005 to 2.5 billion US dollar in 2014 (@MalariaTrend). Moreover, World Health Organisation also reformatted the strategies for malaria in 2010s, ensure the disease is under control (@MalariaTrend).
+
+
+```{r countries, echo = FALSE, preserve = TRUE, fig.cap = ""Top 5 Countries with highest Malaria death rate"}
+
+malaria_mean <- malaria_data %>%
+  group_by(Country) %>%
+  summarize(Mean = mean(Malaria)) %>%
+  mutate(Mean = ceiling(Mean)) %>%
+  arrange(-Mean) %>%
+   filter(!Country %in% c("Asia", "Africa", "African Region", "Central Asia", "Central Europe", "Central Europe, Eastern Europe, and Central Asia",
+                        "Central Latin America", "Central sub-Saharan Africa", "Commonwealth High Income", "Commonwealth Low Income", 
+                        "Commonwealth Middle Income" , "East Asia","East Asia & Pacific - World Bank region", "Eastern Europe", 
+                        "Eastern Mediterranean Region", "Eastern sub-Saharan Africa" ,"Europe & Central Asia - World Bank region", 
+                        "European Region", "European Union" , "G20", "Low SDI", "High SDI", "Low-middle SDI",  "High-income", 
+                        "High-income Asia Pacific", "High-income North America" , "High-middle SDI","Latin America & Caribbean - World Bank region" ,
+                        "Middle SDI","Commonwealth", "African Union", "Southern sub-Saharan Africa", "Region of the Americas",
+                        "South-East Asia Region" , "Southeast Asia","Southeast Asia, East Asia, and Oceania", "South Asia - World Bank region",
+                        "Sub-Saharan Africa - World Bank region" , "Western Europe", "Western Pacific Region" , "Western sub-Saharan Africa", 
+                        "World" , "World Bank High Income", "World Bank Low Income","World Bank Lower Middle Income" ,
+                        "World Bank Upper Middle Income"))
+
+knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Malaria death rate")
+
+
+```
+
+
+```{r ountrygraph, echo = FALSE, preserve = TRUE, fig.cap ="Top 5 countries with the highest malaria death rate"}
+
+malaria_top5 <- malaria_data %>%
+  filter(Country %in% c("Nigeria", "India", "Uganda", "Burkina Faso", "Democratic Republic of Congo")) 
+
+ggplot(malaria_top5, aes( x = Year, y = Malaria, color = Country)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::comma) + 
+  ggtitle("Top 5 countries with the highest malaria death rate")
+
+
+```
+
+ increase in the population with access of insecticide in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend). 
+ 
+-explain why it is decerasing
+
+
+
+
+
+
+
 
 
 ## MinMin_Soh
