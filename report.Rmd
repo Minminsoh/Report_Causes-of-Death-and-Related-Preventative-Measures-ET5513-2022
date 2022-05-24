@@ -101,7 +101,7 @@ ggplot(malaria_world, aes( x = Year, y = Malaria)) +
 
 ```
 
-Figure \@ref(fig:worldtrend) shows the world trend of malaria death rate across 2000 to 2019. The downward trend of malaria death rate could be the result of the increase in malaria program funding from 960 million US dollar in 2005 to 2.5 billion US dollar in 2014 (@MalariaTrend). Moreover, World Health Organisation also reformatted the strategies for malaria in 2010s, ensure the disease is under control (@MalariaTrend).
+Figure \@ref(fig:worldtrend) shows the world trend of malaria death rate across 2000 to 2019. The downward trend could be the result of two reasons. Firstly, the increase in malaria program funding from 960 million US dollar in 2005 to 2.5 billion US dollar in 2014 (@MalariaTrend). Secondly, World Health Organisation (WHO) updated the strategies for malaria in 2010s, ensure it is efficient from time to time to control malaria transmission (@MalariaTrend2). 
 
 
 ```{r countries, echo = FALSE, preserve = TRUE, fig.cap = ""Top 5 Countries with highest Malaria death rate"}
@@ -127,9 +127,9 @@ knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Mala
 
 
 ```
+Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. The average temperature in Nigeria can be up to 40 degree celsius and annual rainfall can up to 4000mm, these conditions creates suitable environment for malaria parasite (@Nigeria and @climate). Moreover, only a small proportion of malaria cases is reported to government in Nigeria (@Nigeria2). 
 
-
-```{r ountrygraph, echo = FALSE, preserve = TRUE, fig.cap ="Top 5 countries with the highest malaria death rate"}
+```{r countrygraph, echo = FALSE, preserve = TRUE, fig.cap ="Top 5 countries with the highest malaria death rate"}
 
 malaria_top5 <- malaria_data %>%
   filter(Country %in% c("Nigeria", "India", "Uganda", "Burkina Faso", "Democratic Republic of Congo")) 
@@ -141,10 +141,9 @@ ggplot(malaria_top5, aes( x = Year, y = Malaria, color = Country)) +
 
 
 ```
-
- increase in the population with access of insecticide in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend). 
+Figure \@ref(fig:countrygraph) shows the death rate trend by countries from 2000 to 2019. Overall, the trend was decreasing over the years with fluctuations in some of the countries. The reason for the downward trend could be the increase in the population with access of insecticide in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend). 
  
--explain why it is decerasing
+
 
 
 
