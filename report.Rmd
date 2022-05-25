@@ -142,7 +142,9 @@ knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Mala
 
 
 ```
-Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. The average temperature in Nigeria can be up to 40 degree celsius and annual rainfall can up to 4000mm, these conditions creates suitable environment for malaria parasite (@Nigeria and @climate). Moreover, only a small proportion of malaria cases is reported to government in Nigeria (@Nigeria2). People living in that area who are not infected may not be able to take precaution or aware of the disease as the actual number of confirmed cases could be higher than the reported cases. 
+Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. The average temperature in Nigeria can be up to 40 degree Celsius and annual rainfall can up to 4000mm, these conditions creates suitable environment for malaria parasite (@Nigeria and @climate). 
+
+Moreover, only a small proportion of malaria cases is reported to government in Nigeria (@Nigeria2). People living in that area who are not infected may not be able to take precaution or aware of the disease as the actual number of confirmed cases could be higher than the reported cases. 
 
 ```{r countrygraph, echo = FALSE, preserve = TRUE, fig.cap ="Top 5 countries with the highest malaria death rate"}
 
@@ -157,6 +159,8 @@ ggplot(malaria_top5, aes( x = Year, y = Malaria, color = Country)) +
 
 ```
 Figure \@ref(fig:countrygraph) shows the death rate trend by countries from 2000 to 2019. Overall, the trend was decreasing over the years with fluctuations in some of the countries. The reason for the downward trend could be the increase in the population with access of insecticide-treated net in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend). 
+
+
  
 
 
