@@ -91,7 +91,7 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
 
 
-\clearpage
+
 
 \section*{}
 
