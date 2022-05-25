@@ -88,10 +88,10 @@ The original dataset is filtered to show details of various countries and the de
 
 @khan2010nutritional says that children are the most visible victims of nutritional deficiencies. Poor nutrition contributes to 35% of the 9.2 million child deaths each year globally.
 
-The three research questions that I will look to answer with this data are :  
-**How have death from Nutritional Deficiencies changed over time in the world ?**
-**What are the top 5 countries with the highest death rates from Nutritional Deficiencies and the death trends for those countries?**
-**What are the preventative measures these countries can incorporate to prevent further deaths for Nutritional Deficiencies?**
+The three research questions that I will look to answer with this data are :   
+**How have death from Nutritional Deficiencies changed over time in the world ?**  
+**What are the top 5 countries with the highest death rates from Nutritional Deficiencies and the death trends for those countries?**  
+**What are the preventative measures these countries can incorporate to prevent further deaths for Nutritional Deficiencies?**  
 
 
 
@@ -131,7 +131,7 @@ data1 <- data %>%
 # Worldwide trend
 
 
-```{r globaltrend, echo = FALSE, message = FALSE, dpi=300, out.width = '70%'}
+```{r global, echo = FALSE, message = FALSE, dpi=300, out.width = '70%'}
 graph <- data1 %>% filter (Country == "World")
 
 graph1 <-  graph  %>% 
@@ -144,7 +144,11 @@ graph1
 
 ```
 
-The graph \@ref(fig:globaltrend) shows the worldwide trend of Nutritional Deficiencies from the year 1990. The trend is downward which means that the number of deaths have decreased over these years.
+
+
+The graph \@ref(fig:global) shows the worldwide trend of Nutritional Deficiencies from the year 1990. The trend is downward which means that the number of deaths have decreased over these years.
+
+
 
 
 @perez2003nutrition mentions that Health promotion from the early stages in life by fostering healthy eating practices and regular physical activity has had the potential for a major impact on health and well-being during childhood and later stages in life resulting in decreasing deaths. 
@@ -173,7 +177,11 @@ Highest_countries,5), booktabs = TRUE)
 
 ```
 
+
+
 The table \@ref(tab:top5countries) tabulates the top 5 countries that have had the maximum deaths. India is at the top with a staggeringly high number followed by Ethiopia, Bangladesh, North Korea and Indonesia.
+
+
 
 
 
@@ -195,6 +203,9 @@ plot <-  deaths_top5 %>%
 
 plot
 ```
+
+
+
 \@ref(fig:topcountries) graphically represents these countries. India has an exponentially downward decline over the years. This trend is similar for other countries and the death rate has more or less reached the same level for these countries in the recent past.  
 
 ## Reasons :  
