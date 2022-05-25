@@ -87,7 +87,6 @@ names(Data)
 ### Research question: 
 
 -1. How is the trend of **malaria** change across the years in the WORLD ? 
-
 -2. What is the 5 countries with highest death rates for malaria
 
 -3. What is the preventive measures for malaria? 
@@ -158,10 +157,11 @@ ggplot(malaria_top5, aes( x = Year, y = Malaria, color = Country)) +
 
 
 ```
-Figure \@ref(fig:countrygraph) shows the death rate trend by countries from 2000 to 2019. Overall, the trend was decreasing over the years with fluctuations in some of the countries. The reason for the downward trend could be the increase in the population with access of insecticide-treated net in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend). 
+Figure \@ref(fig:countrygraph) shows the death rate trend by countries from 2000 to 2019. Overall, the trend was decreasing over the years with fluctuations in some of the countries. The reason for the downward trend could be the increase in the population with access of insecticide-treated net in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend).
 
 
- 
+
+
 
 
 
