@@ -74,58 +74,38 @@ The library packages used in our research consist of:
 ```{r readdata, , echo = FALSE, message = FALSE, warning = FALSE}
 Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
-names(Data)
 
 ```
-
 \clearpage
 
-\section*{}
+\section*{Nutrional Deficiencies}
 
-## YanChuiLucia_Cheung
+## Sanna_Meer
 
-### Research question: 
+### Introduction : 
+Nutritional deficiency occurs when the body is not getting enough nutrients such as vitamins and minerals. There are a number of conditions that are caused by nutritional deficiency such as Malnutrition or even more severe conditions like Anemia. According to World Health Organisation(WHO), about 2 billion people globally suffer from Nutritional Deficiencies.  
+The original dataset is filtered to show details of various countries and the death numbers over these years for Nutritional Deficiencies.  
 
--1. How is the trend of **malaria** change across the years in the WORLD ? 
--2. What is the 5 countries with highest death rates for malaria
+@khan2010nutritional says that children are the most visible victims of nutritional deficiencies. Poor nutrition contributes to 35% of the 9.2 million child deaths each year globally.
 
--3. What is the preventive measures for malaria? 
-
-
-### Brief explanation of Malaria: 
-
-Malaria is a parasitic disease caused by Anopheles mosquitoes, the main types of parasite that are found in infected population are Plasmodium
-falciparum or Plasmodium vivax (@malariaintro). 
-
-```{r worldtrend, echo = FALSE, preserve = TRUE, fig.cap ="Malaria world trend"}
-
-malaria_data <- Data %>%
-  select(Entity, Year, "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
-  rename(Malaria = "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
-  rename(Country = Entity) %>%
-  filter(Year >= 2000) 
-
-malaria_world<- malaria_data %>%
-  filter(Country == "World") 
-
-ggplot(malaria_world, aes( x = Year, y = Malaria)) +
-  geom_line()+
-  scale_y_continuous(labels = scales::comma) + ggtitle("Malaria world trend")
-
-```
+The three research questions that I will look to answer with this data are :  
+**How have death from Nutritional Deficiencies changed over time in the world ?**
+**What are the top 5 countries with the highest death rates from Nutritional Deficiencies and the death trends for those countries?**
+**What are the preventative measures these countries can incorporate to prevent further deaths for Nutritional Deficiencies?**
 
 
-Figure \@ref(fig:worldtrend) shows the world trend of malaria death rate across 2000 to 2019. The downward trend could be the result of two reasons. Firstly, the increase in malaria program funding from 960 million US dollar in 2005 to 2.5 billion US dollar in 2014 (@MalariaTrend). Secondly, World Health Organisation (WHO) updated the strategies for malaria in 2010s, ensure it is efficient from time to time to control malaria transmission and increase in finanacial support for malaria researches in the early 2000s (@MalariaTrend2). 
 
+```{r, echo=FALSE, message=FALSE}
+#reading the data
+data <- read_csv(here::here("Data/test1.csv"))
+data1 <- data %>%
+  rename(Nutritional_deficiency_deaths = "Deaths - Nutritional deficiencies - Sex: Both - Age: All Ages (Number)",
+         Country = "Entity")
 
-```{r countries, echo = FALSE, preserve = TRUE, fig.cap = ""Top 5 Countries with highest Malaria death rate"}
-
-malaria_mean <- malaria_data %>%
-  group_by(Country) %>%
-  summarize(Mean = mean(Malaria)) %>%
-  mutate(Mean = ceiling(Mean)) %>%
-  arrange(-Mean) %>%
-   filter(!Country %in% c("Asia", "Africa", "African Region", "Central Asia", "Central Europe", "Central Europe, Eastern Europe, and Central Asia",
+#removing unwanted observations
+ data2<- data1 %>% 
+   select(Country,Year, Nutritional_deficiency_deaths) %>%
+  filter(!Country %in% c("Asia", "Africa", "African Region", "Central Asia", "South-East Asia Region (WHO)", "East Asia & Pacific (WB)", "Region of the Americas (WHO)", "South Asia (WB)",	"African Region (WHO)", "Latin America & Caribbean (WB)", "Eastern Mediterranean Region (WHO)", "Western Pacific Region (WHO)", "OECD Countries", "Sub-Saharan Africa (WB)" ,"Central Europe", "Central Europe, Eastern Europe, and Central Asia",
                         "Central Latin America", "Central sub-Saharan Africa", "Commonwealth High Income", "Commonwealth Low Income", 
                         "Commonwealth Middle Income" , "East Asia","East Asia & Pacific - World Bank region", "Eastern Europe", 
                         "Eastern Mediterranean Region", "Eastern sub-Saharan Africa" ,"Europe & Central Asia - World Bank region", 
@@ -136,65 +116,102 @@ malaria_mean <- malaria_data %>%
                         "Sub-Saharan Africa - World Bank region" , "Western Europe", "Western Pacific Region" , "Western sub-Saharan Africa", 
                         "World" , "World Bank High Income", "World Bank Low Income","World Bank Lower Middle Income" ,
                         "World Bank Upper Middle Income"))
+ 
+```
 
-knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Malaria death rate")
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
+ Nutr_def_data <- data2 %>%
+  select(Country, Year, Nutritional_deficiency_deaths) %>%
+  group_by(Country, Year) %>%
+  summarise(Total_deaths = sum(Nutritional_deficiency_deaths, na.rm= TRUE))
+```
+
+
+# Worldwide trend
+
+
+```{r globaltrend, echo = FALSE, message = FALSE, dpi=300, out.width = '70%'}
+graph <- data1 %>% filter (Country == "World")
+
+graph1 <-  graph  %>% 
+  ggplot(aes(x= Year, 
+             y = Nutritional_deficiency_deaths))+
+   geom_line(color = "blue") +
+  ylab("Total_deaths") + xlab("Year") + ggtitle("The trend of Nutritional Deficiency deaths worldwide from 1990") + scale_y_continuous(labels = scales::comma)
+
+graph1
 
 ```
-Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. The average temperature in Nigeria can be up to 40 degree Celsius and annual rainfall can up to 4000mm, these conditions creates suitable environment for malaria parasite (@Nigeria and @climate). 
 
-Moreover, only a small proportion of malaria cases is reported to government in Nigeria (@Nigeria2). People living in that area who are not infected may not be able to take precaution or aware of the disease as the actual number of confirmed cases could be higher than the reported cases. 
+The graph \@ref(fig:globaltrend) shows the worldwide trend of Nutritional Deficiencies from the year 1990. The trend is downward which means that the number of deaths have decreased over these years.
 
-```{r countrygraph, echo = FALSE, preserve = TRUE, fig.cap ="Top 5 countries with the highest malaria death rate"}
 
-malaria_top5 <- malaria_data %>%
-  filter(Country %in% c("Nigeria", "India", "Uganda", "Burkina Faso", "Democratic Republic of Congo")) 
+@perez2003nutrition mentions that Health promotion from the early stages in life by fostering healthy eating practices and regular physical activity has had the potential for a major impact on health and well-being during childhood and later stages in life resulting in decreasing deaths. 
+This article also mentions that Other features that contribute to gain effectiveness are the provision of adequate time and intensity for the intervention, involvement of families, particularly for younger children, and incorporation of self-assessment and feedback in interventions for older children.  
 
-ggplot(malaria_top5, aes( x = Year, y = Malaria, color = Country)) +
-  geom_line()+
-  scale_y_continuous(labels = scales::comma) + 
-  ggtitle("Top 5 countries with the highest malaria death rate")
+# Top 5 countries with highest average  death rates
 
+
+```{r top5, echo = FALSE, message = FALSE}
+#top  countries with highest average  death rates
+
+Highest_countries1 <- data2 %>%
+         group_by(Country) %>%
+          summarise(Average_deaths = mean(Nutritional_deficiency_deaths, na.rm = TRUE)) %>%
+  arrange(-Average_deaths)
 
 ```
-Figure \@ref(fig:countrygraph) shows the death rate trend by countries from 2000 to 2019. Overall, the trend was decreasing over the years with fluctuations in some of the countries. The reason for the downward trend could be the increase in the population with access of insecticide-treated net in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend).
+
+
+```{r top5countries, echo = FALSE, message = FALSE}
+Highest_countries <- Highest_countries1 %>% 
+  mutate_if(is.numeric, round, digits=0)
+
+knitr::kable(head(
+Highest_countries,5), booktabs = TRUE)
+
+```
+
+The table \@ref(tab:top5countries) tabulates the top 5 countries that have had the maximum deaths. India is at the top with a staggeringly high number followed by Ethiopia, Bangladesh, North Korea and Indonesia.
 
 
 
+```{r, echo=FALSE}
+deaths_top5 <- data1 %>%
+  filter(Country %in% c( "India", "Ethiopia", "Bangladesh", "North Korea", "Indonesia"))
+```
+
+
+# Top 5 countries
+
+
+```{r topcountries, echo = FALSE, dpi=300, out.width = '70%'}
+plot <-  deaths_top5 %>%
+  group_by(Country) %>%
+  ggplot() +
+  geom_line(aes(x = Year, y = Nutritional_deficiency_deaths, color = Country)) +
+  ylab("Number of death") + xlab("Year") + ggtitle("Top 5 countries with highest death rates due to Nutritional Deficiencies")
+
+plot
+```
+\@ref(fig:topcountries) graphically represents these countries. India has an exponentially downward decline over the years. This trend is similar for other countries and the death rate has more or less reached the same level for these countries in the recent past.  
+
+## Reasons :  
+ 
+Although the graph is a positive decline in the trends, there are several reasons as to why these countries have suffered the most :
+* Poverty, lack of purchasing power, household food insecurity, and limited general knowledge about appropriate nutritional practices.
+* Inadequate maternal and child care, household food insecurity, and poor health services in an unhealthy environment.  
+
+## Preventative Measures :  
+* Education programs to encourage healthier and more nutritious food choices
+* Food-based approaches that increase the availability or affordability of nutrient-rich foods; and,
+* National policies to fortify commonly-eaten foods.
+
+# Conclusion :  
 
 
 
-
-
-
-
-
-
-
-
-## MinMin_Soh
-
-
-\clearpage
-
-
-
-\clearpage
-
-\section*{}
-
-## Sanna_Meer
-
-
-
-\section*{}
-
-## Aphiaut_Imuan 
-
-
-\clearpage
-
-# Conclusion :
 
 
 \clearpage
