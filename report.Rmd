@@ -90,15 +90,15 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 Research Questions: 
 
 - How is the death rates of **HIV / AIDS** change in the world ? 
-- What is the top 5 countries with the highest death rates from HIV / AIDS ? 
-- What are the preventive measures for HIV / AIDS ? 
+- What is the top 5 countries with the highest death rates from **HIV / AIDS** and the death trends for those countries?
+- What are the preventive measures for **HIV / AIDS** ? 
 
 \clearpage
 
-# Death rates of **HIV / AIDS** in the world  
+## Death rates of **HIV / AIDS** in the world  
 
 ```{r HIV_AIDS,  echo = FALSE, message = FALSE, warning = FALSE }
-HIV_AIDS <- Deaths %>% 
+HIV_AIDS <- Data %>% 
   select( Entity, Code, Year, `Deaths - HIV/AIDS - Sex: Both - Age: All Ages (Number)`) %>%
   rename(Deaths_HIV_AIDS = `Deaths - HIV/AIDS - Sex: Both - Age: All Ages (Number)` )%>%
   filter(!is.na(Deaths_HIV_AIDS))
@@ -108,7 +108,7 @@ HIV_AIDS <- Deaths %>%
 
 
 
-```{r Worldtrend, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Number of Deaths from HIV/AIDS in the World" }
+```{r WorldHIVtrend, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Number of Deaths from HIV/AIDS in the World" }
 
 HIV_AIDS %>% filter (Entity == "World")%>%
   ggplot(aes(x= Year, 
@@ -123,13 +123,77 @@ HIV_AIDS %>% filter (Entity == "World")%>%
 
 ```
 
-Figure \@ref(fig:Worldtrend)  depicts the global death rate of HIV/AIDS over time. As observed, the death rate followed an increasing trend from 1990 to around 2005, and then decreased from 2005 onwards. 
+Figure \@ref(fig:WorldHIVtrend)  depicts the global death rate of HIV/AIDS over time. As observed, the death rate followed an increasing trend from 1990 to around 2005, and then decreased from 2005 onwards. 
+
+\clearpage
+
+## The 5 countries with the highest death rates from HIV / AIDS
+
+```{r  average_death_HIV,  echo = FALSE, message = FALSE, warning = FALSE}
+#disable scientific notation
+options(scipen=999)
+
+#calculate average death rates per nation
+HIV_AIDS_nation <- HIV_AIDS %>% 
+  filter(!Entity %in% c("Asia", "Africa", "African Region", "Central Asia", "Central Europe", "Central Europe, Eastern Europe, and Central Asia",
+                        "Central Latin America", "Central sub-Saharan Africa", "Commonwealth High Income", "Commonwealth Low Income", 
+                        "Commonwealth Middle Income" , "East Asia","East Asia & Pacific - World Bank region", "Eastern Europe", 
+                        "Eastern Mediterranean Region", "Eastern sub-Saharan Africa" ,"Europe & Central Asia - World Bank region", 
+                        "European Region", "European Union" , "G20", "Low SDI", "High SDI", "Low-middle SDI",  "High-income", 
+                        "High-income Asia Pacific", "High-income North America" , "High-middle SDI","Latin America & Caribbean - World Bank region" ,
+                        "Middle SDI","Commonwealth", "African Union", "Southern sub-Saharan Africa", "Region of the Americas",
+                        "South-East Asia Region" , "Southeast Asia","Southeast Asia, East Asia, and Oceania", "South Asia - World Bank region",
+                        "Sub-Saharan Africa - World Bank region" , "Western Europe", "Western Pacific Region" , "Western sub-Saharan Africa", 
+                        "World" , "World Bank High Income", "World Bank Low Income","World Bank Lower Middle Income" ,
+                        "World Bank Upper Middle Income"))
+
+mean_HIV_AIDS <- HIV_AIDS_nation %>% 
+  group_by(Entity)  %>% 
+  summarise(`Average Death Rates from HIV/AIDS` =  mean(Deaths_HIV_AIDS, na.rm = TRUE)) %>%
+  arrange(-`Average Death Rates from HIV/AIDS`)
+
+mean_HIV_AIDS <- mean_HIV_AIDS %>% 
+  mutate_if(is.numeric, round, digits=0)
+
+mean_HIV_AIDS <- head(mean_HIV_AIDS,5)
+
+
+
+```
+
+
+```{r HIVtable,  echo = FALSE, message = FALSE, warning = FALSE}
+
+kable(mean_HIV_AIDS, caption = "Top 5 countries with the highest average death rates from HIV / AIDS",
+           booktabs = T) %>%
+kable_styling(latex_options = c("striped", "hold_position"))
+```
+
+Table \@ref(tab:HIVtable)  above depicts the 5 countries with the highest average death rates from HIV / AIDS from year 1990 to year 2019. South Africa had the highest average death rate, followed by Kenya, Tanzania, India and Nigeria. 
+
+## The death trends for the 5 countries with the highest average death rates from HIV/AIDS
+ 
+
+```{r HIVtrend, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Death trends from HIV/AIDS in those 5 Countries"}
+HIV_AIDS %>% filter (Entity %in% c("South Africa", "Kenya","Tanzania", "India" , "Nigeria" ))%>%
+  ggplot(aes(x= Year, 
+             y = Deaths_HIV_AIDS,
+             colour = Entity))+
+  geom_line(linetype = "dashed", size =1 ) +
+  geom_point(size = 2)+
+  labs(y = "Number of Deaths from HIV/AIDS",
+       x = "Year",
+       color = "Country")+
+  ggtitle("Deaths rates from HIV/AIDS")+
+  scale_y_continuous(labels = scales::comma)+
+  theme_minimal()
+```
+Figure \@ref(fig:HIVtrend) depicts the death rates from HIV/AIDS for the 5 countries listed in the table above. Each country appears to follow the global death rate trend of increasing from the 1990s to the 2000s, before decreasing from 2005 to 2020. This is highly evident in South Africa and India. 
+
 
 \clearpage
 
 
-
-\clearpage
 
 \section*{}
 
