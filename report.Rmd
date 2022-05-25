@@ -83,7 +83,6 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 ## YanChuiLucia_Cheung
 
 
-## MinMin_Soh
 
 # Deaths - HIV/AIDS
 
@@ -243,6 +242,10 @@ To further prevent HIV/AIDS, contraception needs to be 'at the centre of the HIV
 - *Education*
 
 Education also needs to be at the forefront of preventive measures as many people in developing countries are unaware of preventative measures for HIV/AIDS, @baxen2004researching.
+
+##Conclusion 
+
+The world is making progress on HIV/AIDS death prevention, demonstrated by the decreasing death rates. Antiretroviral treatment (HRT) has been the key to avert deaths from HIV/AIDS. Strict adherence to other measures including contraception and education can dramatically slow the disease's progress  and prevent secondary infections. 
 
 \section*{}
 
