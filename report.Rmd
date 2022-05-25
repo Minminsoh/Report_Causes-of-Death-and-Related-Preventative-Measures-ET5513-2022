@@ -173,8 +173,10 @@ Table \@ref(tab:HIVtable)  above depicts the 5 countries with the highest averag
 
 ## The death trends for the 5 countries with the highest average death rates from HIV/AIDS
  
+Figure \@ref(fig:HIVtrend) depicts the death rates from HIV/AIDS for the 5 countries listed in the table above. Each country appears to follow the global death rate trend of increasing from the 1990s to the 2000s, before decreasing from 2005 to 2020. This is highly evident in South Africa and India. 
 
-```{r HIV, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Death trends from HIV/AIDS in those 5 Countries"}
+
+```{r HIVtrend, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Top 5 countries with the highest average death rates from HIV/AIDS"  }
 
 HIV_AIDS %>% filter (Entity %in% c("South Africa", "Kenya","Tanzania", "India" , "Nigeria" ))%>%
   ggplot(aes(x= Year, 
@@ -186,16 +188,18 @@ HIV_AIDS %>% filter (Entity %in% c("South Africa", "Kenya","Tanzania", "India" ,
        x = "Year",
        color = "Country")+
   ggtitle("Deaths rates from HIV/AIDS")+
-  scale_y_continuous(labels = scales::comma)+
-  theme_minimal()
+  scale_y_continuous(labels = scales::comma)
+
 ```
-Figure \@ref(fig:HIV) depicts the death rates from HIV/AIDS for the 5 countries listed in the table above. Each country appears to follow the global death rate trend of increasing from the 1990s to the 2000s, before decreasing from 2005 to 2020. This is highly evident in South Africa and India. 
+
+
+
 
 \clearpage
 
 ## Preventive measures for **HIV / AIDS** 
 
-- Antiretroviral Therapy (ART) 
+- *Antiretroviral Therapy (ART)* 
 
 ART treatment involves taking medicines to slow down HIV multiplication rate to prevent HIV from progressing to AIDS, and therefore provide longer lives for patients as discussed in @kemnic2018hiv. Figure \@ref(fig:ARTplot) depicts the rate of HIV/AIDS-related deaths averted due to ART. @sashindran2016antiretroviral and @world2006towards explained that although the treatment was developed in the 1980s, it wasn't widely available in developing countries such as India until the WHO enacted the 3 by 5 initiative between 2003 and 2005. Therefore, figure \@ref(fig:ARTplot) shows an rising trend of HIV/AIDS-related deaths since 2005, which means that the treatment is effective in slowing HIV/AIDS-related deaths. 
 
@@ -232,11 +236,13 @@ ART_nation %>%
 
 \clearpage
 
-- Contraception measures
+- *Contraception measures*
 
 To further prevent HIV/AIDS, contraception needs to be 'at the centre of the HIV prevention agenda', as discussed in @crankshaw2016placing. @newell1998mechanisms explained that this not only protects people from getting HIV/AIDS but also newborn babies, as HIV/AIDS can be transmitted from mothers to their newborn children.  
 
+- *Education*
 
+Education also needs to be at the forefront of preventive measures as many people in developing countries are unaware of preventative measures for HIV/AIDS, @baxen2004researching.
 
 \section*{}
 
