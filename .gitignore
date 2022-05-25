@@ -38,4 +38,9 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
+monashreport2.tex
+
+preamble.tex
+
+LICENSE
 
