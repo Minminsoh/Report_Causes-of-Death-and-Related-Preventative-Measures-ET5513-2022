@@ -85,6 +85,45 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
 ## MinMin_Soh
 
+# Deaths - HIV/AIDS
+
+Research Questions: 
+
+- How is the death rates of **HIV / AIDS** change in the world ? 
+- What is the top 5 countries with the highest death rates from HIV / AIDS ? 
+- What are the preventive measures for HIV / AIDS ? 
+
+\clearpage
+
+# Death rates of **HIV / AIDS** in the world  
+
+```{r HIV_AIDS,  echo = FALSE, message = FALSE, warning = FALSE }
+HIV_AIDS <- Deaths %>% 
+  select( Entity, Code, Year, `Deaths - HIV/AIDS - Sex: Both - Age: All Ages (Number)`) %>%
+  rename(Deaths_HIV_AIDS = `Deaths - HIV/AIDS - Sex: Both - Age: All Ages (Number)` )%>%
+  filter(!is.na(Deaths_HIV_AIDS))
+                
+                 
+```
+
+
+
+```{r Worldtrend, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Number of Deaths from HIV/AIDS in the World" }
+
+HIV_AIDS %>% filter (Entity == "World")%>%
+  ggplot(aes(x= Year, 
+             y = Deaths_HIV_AIDS))+
+  geom_line(linetype = "dashed", color = "blue", size =1 ) +
+  geom_point(color = "blue", size = 3)+
+  labs(y = "Number of Deaths from HIV/AIDS",
+       x = "Year")+
+  ggtitle("Deaths rates from HIV/AIDS in the world")+
+  scale_y_continuous(labels = scales::comma)+
+  theme_minimal()
+
+```
+
+Figure \@ref(fig:Worldtrend)  depicts the global death rate of HIV/AIDS over time. As observed, the death rate followed an increasing trend from 1990 to around 2005, and then decreased from 2005 onwards. 
 
 \clearpage
 
