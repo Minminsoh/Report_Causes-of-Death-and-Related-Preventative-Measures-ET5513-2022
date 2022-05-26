@@ -125,6 +125,10 @@ ggplot(malaria_world, aes( x = Year, y = Malaria)) +
 
 Figure \@ref(fig:worldtrend) shows the world trend of malaria death rate across 2000 to 2019. The downward trend could be the result of two reasons. Firstly, the increase in malaria program funding from 960 million US dollar in 2005 to 2.5 billion US dollar in 2014 (@MalariaTrend). Secondly, World Health Organisation (WHO) updated the strategies for malaria in 2010s, ensure it is efficient from time to time to control malaria transmission and increase in financial support for malaria researches in the early 2000s (@MalariaTrend2). 
 
+\clearpage
+
+### The 5 countries with the highest death rates from **Malaria**
+
 ```{r countries, echo = FALSE, preserve = TRUE}
 malaria_mean <- malaria_data %>%
   group_by(Country) %>%
@@ -145,9 +149,10 @@ malaria_mean <- malaria_data %>%
 knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Malaria death rate")
 ```
 
-\clearpage
 
 Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. 
+
+### The death trends for the 5 countries with the highest average death rates from Malaria
 
 ```{r countrygraph, echo = FALSE, preserve = TRUE, fig.pos= "H", dpi=300, out.width = '70%', fig.cap = "Top 5 countries with the highest malaria death rate"}
 malaria_top5 <- malaria_data %>%
@@ -341,8 +346,7 @@ The original data-set is taken from the website **"Our World in data"** and is t
 
 ```{r, echo=FALSE, message=FALSE}
 #reading the data
-data <- read_csv(here::here("Data/test1.csv"))
-data1 <- data %>%
+data1 <- Data %>%
   rename(Nutritional_deficiency_deaths = "Deaths - Nutritional deficiencies - Sex: Both - Age: All Ages (Number)",
          Country = "Entity")
 #removing unwanted observations
