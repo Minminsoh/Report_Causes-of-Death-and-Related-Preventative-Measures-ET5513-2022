@@ -139,8 +139,8 @@ knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Mala
 
 
 ```
-Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. 
 
+Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. 
 
 ```{r countrygraph, echo = FALSE, preserve = TRUE, fig.cap ="Top 5 countries with the highest malaria death rate"}
 
