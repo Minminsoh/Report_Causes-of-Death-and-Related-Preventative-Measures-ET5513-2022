@@ -82,6 +82,85 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
 ## YanChuiLucia_Cheung
 
+### research question 
+
+-1. How is the trend of **malaria** change across the years in the WORLD ? 
+
+-2. What is the 5 countries with highest death rates for malaria
+
+-3. What is the preventive measures for malaria? 
+
+
+Malaria is a parasitic disease caused by Anopheles mosquitoes, the main types of parasite that are found in infected population are Plasmodium
+falciparum or Plasmodium vivax (@malariaintro). 
+
+```{r worldtrend, echo = FALSE, preserve = TRUE, dpi=300, out.width = '70%', fig.cap = "Malaria world trend"}
+
+malaria_data <- Data %>%
+  select(Entity, Year, "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
+  rename(Malaria = "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
+  rename(Country = Entity) %>%
+  filter(Year >= 2000) 
+malaria_world<- malaria_data %>%
+  filter(Country == "World") 
+ggplot(malaria_world, aes( x = Year, y = Malaria)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::comma) + ggtitle("Malaria world trend")
+
+```
+
+Figure \@ref(fig:worldtrend) shows the world trend of malaria death rate across 2000 to 2019. The downward trend could be the result of two reasons. Firstly, the increase in malaria program funding from 960 million US dollar in 2005 to 2.5 billion US dollar in 2014 (@MalariaTrend). Secondly, World Health Organisation (WHO) updated the strategies for malaria in 2010s, ensure it is efficient from time to time to control malaria transmission and increase in financial support for malaria researches in the early 2000s (@MalariaTrend2). 
+
+```{r countries, echo = FALSE, preserve = TRUE}
+
+malaria_mean <- malaria_data %>%
+  group_by(Country) %>%
+  summarize(Mean = mean(Malaria)) %>%
+  mutate(Mean = ceiling(Mean)) %>%
+  arrange(-Mean) %>%
+   filter(!Country %in% c("Asia", "Africa", "African Region", "Central Asia", "Central Europe", "Central Europe, Eastern Europe, and Central Asia",
+                        "Central Latin America", "Central sub-Saharan Africa", "Commonwealth High Income", "Commonwealth Low Income", 
+                        "Commonwealth Middle Income" , "East Asia","East Asia & Pacific - World Bank region", "Eastern Europe", 
+                        "Eastern Mediterranean Region", "Eastern sub-Saharan Africa" ,"Europe & Central Asia - World Bank region", 
+                        "European Region", "European Union" , "G20", "Low SDI", "High SDI", "Low-middle SDI",  "High-income", 
+                        "High-income Asia Pacific", "High-income North America" , "High-middle SDI","Latin America & Caribbean - World Bank region" ,
+                        "Middle SDI","Commonwealth", "African Union", "Southern sub-Saharan Africa", "Region of the Americas",
+                        "South-East Asia Region" , "Southeast Asia","Southeast Asia, East Asia, and Oceania", "South Asia - World Bank region",
+                        "Sub-Saharan Africa - World Bank region" , "Western Europe", "Western Pacific Region" , "Western sub-Saharan Africa", 
+                        "World" , "World Bank High Income", "World Bank Low Income","World Bank Lower Middle Income" ,
+                        "World Bank Upper Middle Income"))
+
+knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Malaria death rate")
+
+
+
+
+```
+
+Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. 
+
+```{r countrygraph, echo = FALSE, preserve = TRUE, fig.pos= "H", dpi=300, out.width = '70%', fig.cap = "Top 5 countries with the highest malaria death rate"}
+
+malaria_top5 <- malaria_data %>%
+  filter(Country %in% c("Nigeria", "India", "Uganda", "Burkina Faso", "Democratic Republic of Congo")) 
+
+ggplot(malaria_top5, aes( x = Year, y = Malaria, color = Country)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::comma) + 
+  ggtitle("Top 5 countries with the highest malaria death rate")
+
+```
+
+Figure \@ref(fig:countrygraph) shows the death rate trend by countries from 2000 to 2019. Overall, the trend was decreasing over the years with fluctuations in some of the countries. The reason for the downward trend could be the increase in the population with the access of insecticide-treated net in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend).
+
+There are mainly 2 reasons causing the high death rate in these countries. These countries have hot and humid weather. Temperature higher or equal to 21℃ is the most suitable condition for one of the fatal malaria parasites to grow into vector (@climate). The average temperature in Nigeria can be up to 40 degree Celsius and annual rainfall can up to 4000mm, these conditions create suitable environment for malaria parasite (@Nigeria and @climate). 
+
+Secondly, these countries lack comprehensive report system. Only a small proportion of malaria cases is reported to government in Nigeria (@Nigeria2). People living in that area who are not infected may not be able to take precaution or aware of the disease as the actual number of confirmed cases could be higher than the reported cases. In India, hospitals and clinics do not report malaria cases to corresponding government organisation (@India). 
+
+More than 100 countries have eliminated malaria, and one third of the remaining countries has been actively fighting malaria (@precautions). Some of the preventive measures taken by these countries could be the reference for the 5 countries mentioned above. In Maldives, every confirmed malaria case must report to government (@India). In Sri Lanka, mobile malaria clinic was set up to identify people who infected malaria in early stage, patients can receive proper treatment before the symptoms become severe (@India). 
+
+There are some precautions that are widely used in malaria prevalent countries, such as insecticide and insecticide-treated net to prevent mosquito bite (@malariaintro). Lastly, the RTS,S subunit vaccine could be a hope for population who are suffering from malaria. Even though the vaccine is still in testing stage, it has approved by World Health Organisation (@Vaccine). 
+
 
 \section*{}
 ## MinMin_Soh
@@ -99,7 +178,11 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
 
 
+
 \section*{Deaths - Cardiovascular diseases}
+
+
+
 
 ## Aphiaut_Imuan  
 
@@ -126,6 +209,10 @@ cardio <- Data %>%
 
 ```
 
+
+
+
+
 ```{r worldtrendcardio, echo=FALSE, echo=FALSE ,out.width = "80%", fig.height = 5, fig.align='center', fig.cap= "The trend of Cardiovascular diseases in the world", warning=FALSE, fig.pos = 'H', message=FALSE}
 cardio_world <- cardio %>%
   filter(country == "World")
@@ -139,9 +226,13 @@ graph_world <-  cardio_world %>%
 graph_world
 ```
 
+
 ```{r tabletop5cardio, echo=FALSE, echo=FALSE ,out.width = "80%", fig.height = 5, fig.align='center', warning=FALSE, fig.pos = 'H', message=FALSE}
 cardio_top5 <- cardio %>%
   filter(country %in% c( "China", "India", "Russia", "United States", "Indonesia"))
+
+
+
 
 
 table_cardio <-  cardio_top5 %>%
@@ -155,12 +246,16 @@ table_cardio%>%
     kable_styling(full_width = FALSE, position = "center",latex_options = "hold_position")
 
 ```
+
 ```{r graphtop5cardio, echo=FALSE ,out.width = "80%", fig.height = 5, fig.align='center', fig.cap= "The 5 countries with the highest death from Cardiovascular diseases", warning=FALSE, fig.pos = 'H', message=FALSE}
 graph <-  cardio_top5 %>%
   group_by(country)%>%
   ggplot() +
   geom_line(aes(x = Year, y = cardio_num, color = country)) +
   ylab("Number of death") + xlab("Year") + ggtitle("The 5 countries with the highest death from Cardiovascular diseases") +scale_y_continuous(labels = scales::comma)
+
+
+
 
 
 graph
@@ -180,5 +275,9 @@ Above mention, the trend of cardiovascular diseases is increasing trend or decre
 Cardiovascular part
 
 The government should create a project or have some organization to support and prevent cardiovascular diseases. Moreover, they should make a policy for people to reduce or stop smoking such as increasing the tax on cigarettes for making people can't afford cigarettes.
+
+
+Malarir part:
+Countries with high malaria death rate should establish a reporting system, so that every case is traceable, hence population living in malaria prevalent area can take precautions immediately.
 
 \clearpage
