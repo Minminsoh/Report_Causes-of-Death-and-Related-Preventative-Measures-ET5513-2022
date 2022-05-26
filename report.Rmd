@@ -73,7 +73,6 @@ The library packages used in our research consist of:
 
 ```{r readdata, , echo = FALSE, message = FALSE, warning = FALSE}
 Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
-
 ```
 
 \clearpage
@@ -82,16 +81,225 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
 ## YanChuiLucia_Cheung
 
+### research question 
+
+-1. How is the trend of **malaria** change across the years in the WORLD ? 
+
+-2. What is the 5 countries with highest death rates for malaria
+
+-3. What is the preventive measures for malaria? 
+
+
+Malaria is a parasitic disease caused by Anopheles mosquitoes, the main types of parasite that are found in infected population are Plasmodium
+falciparum or Plasmodium vivax (@malariaintro). 
+
+```{r worldtrend, echo = FALSE, preserve = TRUE, dpi=300, out.width = '70%', fig.cap = "Malaria world trend"}
+malaria_data <- Data %>%
+  select(Entity, Year, "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
+  rename(Malaria = "Deaths - Malaria - Sex: Both - Age: All Ages (Number)") %>%
+  rename(Country = Entity) %>%
+  filter(Year >= 2000) 
+malaria_world<- malaria_data %>%
+  filter(Country == "World") 
+ggplot(malaria_world, aes( x = Year, y = Malaria)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::comma) + ggtitle("Malaria world trend")
+```
+
+Figure \@ref(fig:worldtrend) shows the world trend of malaria death rate across 2000 to 2019. The downward trend could be the result of two reasons. Firstly, the increase in malaria program funding from 960 million US dollar in 2005 to 2.5 billion US dollar in 2014 (@MalariaTrend). Secondly, World Health Organisation (WHO) updated the strategies for malaria in 2010s, ensure it is efficient from time to time to control malaria transmission and increase in financial support for malaria researches in the early 2000s (@MalariaTrend2). 
+
+```{r countries, echo = FALSE, preserve = TRUE}
+malaria_mean <- malaria_data %>%
+  group_by(Country) %>%
+  summarize(Mean = mean(Malaria)) %>%
+  mutate(Mean = ceiling(Mean)) %>%
+  arrange(-Mean) %>%
+   filter(!Country %in% c("Asia", "Africa", "African Region", "Central Asia", "Central Europe", "Central Europe, Eastern Europe, and Central Asia",
+                        "Central Latin America", "Central sub-Saharan Africa", "Commonwealth High Income", "Commonwealth Low Income", 
+                        "Commonwealth Middle Income" , "East Asia","East Asia & Pacific - World Bank region", "Eastern Europe", 
+                        "Eastern Mediterranean Region", "Eastern sub-Saharan Africa" ,"Europe & Central Asia - World Bank region", 
+                        "European Region", "European Union" , "G20", "Low SDI", "High SDI", "Low-middle SDI",  "High-income", 
+                        "High-income Asia Pacific", "High-income North America" , "High-middle SDI","Latin America & Caribbean - World Bank region" ,
+                        "Middle SDI","Commonwealth", "African Union", "Southern sub-Saharan Africa", "Region of the Americas",
+                        "South-East Asia Region" , "Southeast Asia","Southeast Asia, East Asia, and Oceania", "South Asia - World Bank region",
+                        "Sub-Saharan Africa - World Bank region" , "Western Europe", "Western Pacific Region" , "Western sub-Saharan Africa", 
+                        "World" , "World Bank High Income", "World Bank Low Income","World Bank Lower Middle Income" ,
+                        "World Bank Upper Middle Income"))
+knitr::kable(head(malaria_mean, 5), caption = "Top 5 Countries with highest Malaria death rate")
+```
+
+Table \@ref(tab:countries) lists the top 5 countries with highest Malaria death rate. By comparing the mean death rate, the data of Nigeria is significantly higher than other countries. 
+
+```{r countrygraph, echo = FALSE, preserve = TRUE, fig.pos= "H", dpi=300, out.width = '70%', fig.cap = "Top 5 countries with the highest malaria death rate"}
+malaria_top5 <- malaria_data %>%
+  filter(Country %in% c("Nigeria", "India", "Uganda", "Burkina Faso", "Democratic Republic of Congo")) 
+ggplot(malaria_top5, aes( x = Year, y = Malaria, color = Country)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::comma) + 
+  ggtitle("Top 5 countries with the highest malaria death rate")
+```
+
+Figure \@ref(fig:countrygraph) shows the death rate trend by countries from 2000 to 2019. Overall, the trend was decreasing over the years with fluctuations in some of the countries. The reason for the downward trend could be the increase in the population with the access of insecticide-treated net in malaria prevalent countries from 7% to 67% in 2015 (@MalariaTrend).
+
+There are mainly 2 reasons causing the high death rate in these countries. These countries have hot and humid weather. Temperature higher or equal to 21℃ is the most suitable condition for one of the fatal malaria parasites to grow into vector (@climate). The average temperature in Nigeria can be up to 40 degree Celsius and annual rainfall can up to 4000mm, these conditions create suitable environment for malaria parasite (@Nigeria and @climate). 
+
+Secondly, these countries lack comprehensive report system. Only a small proportion of malaria cases is reported to government in Nigeria (@Nigeria2). People living in that area who are not infected may not be able to take precaution or aware of the disease as the actual number of confirmed cases could be higher than the reported cases. In India, hospitals and clinics do not report malaria cases to corresponding government organisation (@India). 
+
+More than 100 countries have eliminated malaria, and one third of the remaining countries has been actively fighting malaria (@precautions). Some of the preventive measures taken by these countries could be the reference for the 5 countries mentioned above. In Maldives, every confirmed malaria case must report to government (@India). In Sri Lanka, mobile malaria clinic was set up to identify people who infected malaria in early stage, patients can receive proper treatment before the symptoms become severe (@India). 
+
+There are some precautions that are widely used in malaria prevalent countries, such as insecticide and insecticide-treated net to prevent mosquito bite (@malariaintro). Lastly, the RTS,S subunit vaccine could be a hope for population who are suffering from malaria. Even though the vaccine is still in testing stage, it has approved by World Health Organisation (@Vaccine). 
+
 
 \section*{}
 ## MinMin_Soh
 
+## Deaths - HIV/AIDS
+
+Research Questions: 
+
+- How is the death rates of **HIV / AIDS** change in the world ? 
+- What is the top 5 countries with the highest death rates from **HIV / AIDS** and the death trends for those countries?
+- What are the preventive measures for **HIV / AIDS** ? 
 
 \clearpage
 
+### HIV/AIDS 
+
+@cai2009stability discussed tt is estimated that 38.6 million population is currently living with HIV infection. After several infection stages, AIDS would be developed. 
+
+### Death rates of **HIV / AIDS** in the world  
+
+```{r HIV_AIDS,  echo = FALSE, message = FALSE, warning = FALSE }
+HIV_AIDS <- Data %>% 
+  select( Entity, Code, Year, `Deaths - HIV/AIDS - Sex: Both - Age: All Ages (Number)`) %>%
+  rename(Deaths_HIV_AIDS = `Deaths - HIV/AIDS - Sex: Both - Age: All Ages (Number)` )%>%
+  filter(!is.na(Deaths_HIV_AIDS))
+                
+                 
+```
+
+
+
+```{r WorldHIVtrend, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Number of Deaths from HIV/AIDS in the World" }
+HIV_AIDS %>% filter (Entity == "World")%>%
+  ggplot(aes(x= Year, 
+             y = Deaths_HIV_AIDS))+
+  geom_line(linetype = "dashed", color = "blue", size =1 ) +
+  geom_point(color = "blue", size = 3)+
+  labs(y = "Number of Deaths from HIV/AIDS",
+       x = "Year")+
+  ggtitle("Deaths rates from HIV/AIDS in the world")+
+  scale_y_continuous(labels = scales::comma)+
+  theme_minimal()
+```
+
+Figure \@ref(fig:WorldHIVtrend)  depicts the global death rate of HIV/AIDS over time. As observed, the death rate followed an increasing trend from 1990 to around 2005, and then decreased from 2005 onwards. 
+
+\clearpage
+
+### The 5 countries with the highest death rates from **HIV / AIDS**
+
+```{r  average_death_HIV,  echo = FALSE, message = FALSE, warning = FALSE}
+#disable scientific notation
+options(scipen=999)
+#calculate average death rates per nation
+HIV_AIDS_nation <- HIV_AIDS %>% 
+  filter(!Entity %in% c("Asia", "Africa", "African Region", "Central Asia", "Central Europe", "Central Europe, Eastern Europe, and Central Asia",
+                        "Central Latin America", "Central sub-Saharan Africa", "Commonwealth High Income", "Commonwealth Low Income", 
+                        "Commonwealth Middle Income" , "East Asia","East Asia & Pacific - World Bank region", "Eastern Europe", 
+                        "Eastern Mediterranean Region", "Eastern sub-Saharan Africa" ,"Europe & Central Asia - World Bank region", 
+                        "European Region", "European Union" , "G20", "Low SDI", "High SDI", "Low-middle SDI",  "High-income", 
+                        "High-income Asia Pacific", "High-income North America" , "High-middle SDI","Latin America & Caribbean - World Bank region" ,
+                        "Middle SDI","Commonwealth", "African Union", "Southern sub-Saharan Africa", "Region of the Americas",
+                        "South-East Asia Region" , "Southeast Asia","Southeast Asia, East Asia, and Oceania", "South Asia - World Bank region",
+                        "Sub-Saharan Africa - World Bank region" , "Western Europe", "Western Pacific Region" , "Western sub-Saharan Africa", 
+                        "World" , "World Bank High Income", "World Bank Low Income","World Bank Lower Middle Income" ,
+                        "World Bank Upper Middle Income"))
+mean_HIV_AIDS <- HIV_AIDS_nation %>% 
+  group_by(Entity)  %>% 
+  summarise(`Average Death Rates from HIV/AIDS` =  mean(Deaths_HIV_AIDS, na.rm = TRUE)) %>%
+  arrange(-`Average Death Rates from HIV/AIDS`)
+mean_HIV_AIDS <- mean_HIV_AIDS %>% 
+  mutate_if(is.numeric, round, digits=0)
+mean_HIV_AIDS <- head(mean_HIV_AIDS,5)
+```
+
+
+```{r HIVtable,  echo = FALSE, message = FALSE, warning = FALSE}
+kable(mean_HIV_AIDS, caption = "Top 5 countries with the highest average death rates from HIV / AIDS",
+           booktabs = T) %>%
+kable_styling(latex_options = c("striped", "hold_position"))
+```
+
+Table \@ref(tab:HIVtable)  above depicts the 5 countries with the highest average death rates from HIV / AIDS from year 1990 to year 2019. South Africa had the highest average death rate, followed by Kenya, Tanzania, India and Nigeria. 
+
+### The death trends for the 5 countries with the highest average death rates from HIV/AIDS
+ 
+Figure \@ref(fig:HIVtrend) depicts the death rates from HIV/AIDS for the 5 countries listed in the table above. Each country appears to follow the global death rate trend of increasing from the 1990s to the 2000s, before decreasing from 2005 to 2020. This is highly evident in South Africa and India. 
+
+
+```{r HIVtrend, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Top 5 countries with the highest average death rates from HIV/AIDS"  }
+HIV_AIDS %>% filter (Entity %in% c("South Africa", "Kenya","Tanzania", "India" , "Nigeria" ))%>%
+  ggplot(aes(x= Year, 
+             y = Deaths_HIV_AIDS,
+             colour = Entity))+
+  geom_line(linetype = "dashed", size =1 ) +
+  geom_point(size = 2)+
+  labs(y = "Number of Deaths from HIV/AIDS",
+       x = "Year",
+       color = "Country")+
+  ggtitle("Deaths rates from HIV/AIDS")+
+  scale_y_continuous(labels = scales::comma)
+```
+
+
 
 
 \clearpage
+
+### Preventive measures for **HIV / AIDS** 
+
+- *Antiretroviral Therapy (ART)* 
+
+ART treatment involves taking medicines to slow down HIV multiplication rate to prevent HIV from progressing to AIDS, and therefore provide longer lives for patients as discussed in @kemnic2018hiv. Figure \@ref(fig:ARTplot) depicts the rate of HIV/AIDS-related deaths averted due to ART. @sashindran2016antiretroviral and @world2006towards explained that although the treatment was developed in the 1980s, it wasn't widely available in developing countries such as India until the WHO enacted the 3 by 5 initiative between 2003 and 2005. Therefore, figure \@ref(fig:ARTplot) shows an rising trend of HIV/AIDS-related deaths since 2005, which means that the treatment is effective in slowing HIV/AIDS-related deaths. 
+
+This increased the use of ART around the world to treat HIV/AIDS since 2005  can also explain why each country above follows an increasing trend from the mid 2000s. 
+
+```{r ART, echo = FALSE, message = FALSE, warning = FALSE}
+ART <- read_csv("Data/hivaids-deaths-and-averted-due-to-art.csv")
+ART_nation <- ART %>% filter (Entity %in% c( "South Africa", "Kenya","Tanzania", "India" , "Nigeria" ))%>%
+  mutate(Deaths_averted = `Deaths averted due to ART - estimate`) 
+``` 
+
+
+
+```{r ARTplot, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Effectiveness of Antiretroviral therapy on HIV / AIDS over the years" }
+ART_nation %>% 
+  
+  
+  ggplot(aes(x= Year, 
+                          y = Deaths_averted, 
+                         colour = Entity))+
+  geom_line(linetype = "dashed", size =1 ) +
+  geom_point( size = 2)+
+  labs(y = "HIV/AIDS-related Deaths Averted Due to ART",
+       x = "Year")+
+  ggtitle("HIV/AIDS-Related Deaths Averted Due to ART")+
+  scale_y_continuous(labels = scales::comma)+
+  theme_minimal()
+  
+```
+
+\clearpage
+
+- *Contraception measures*
+
+To further prevent HIV/AIDS, contraception needs to be 'at the centre of the HIV prevention agenda', as discussed in @crankshaw2016placing. @newell1998mechanisms explained that this not only protects people from getting HIV/AIDS but also newborn babies, as HIV/AIDS can be transmitted from mothers to their newborn children.  
+
+- *Education*
+
+Education also needs to be at the forefront of preventive measures as many people in developing countries are unaware of preventative measures for HIV/AIDS, @baxen2004researching.
+
 
 \section*{}
 
@@ -99,7 +307,36 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
 
 
+\section*{}
+
+## Aphiaut_Imuan 
+
+
+\clearpage
+
+# Conclusion :
+
+
+\clearpage
+
+
+\clearpage
+
+
+
+
+
+\section*{}
+
+## Sanna_Meer
+
+
+
+
 \section*{Deaths - Cardiovascular diseases}
+
+
+
 
 ## Aphiaut_Imuan  
 
@@ -123,55 +360,52 @@ cardio <- Data %>%
                          "Latin America & Caribbean (WB)", "African Region (WHO)",
                          "Sub-Saharan Africa (WB)", "North America (WB)",
                          "Middle East & North Africa (WB)", "World Bank Low Incom", "World Bank Low Income"))
-
 ```
+
+
+
+
 
 ```{r worldtrendcardio, echo=FALSE, echo=FALSE ,out.width = "80%", fig.height = 5, fig.align='center', fig.cap= "The trend of Cardiovascular diseases in the world", warning=FALSE, fig.pos = 'H', message=FALSE}
 cardio_world <- cardio %>%
   filter(country == "World")
-
 graph_world <-  cardio_world %>%
   group_by(country)%>%
   ggplot() +
   geom_line(aes(x = Year, y = cardio_num, color = country)) +
   ylab("Number of death") + xlab("Year") + ggtitle("Cardiovascular diseases world trend")+ scale_y_continuous(labels = scales::comma)
-
 graph_world
 ```
+
 
 ```{r tabletop5cardio, echo=FALSE, echo=FALSE ,out.width = "80%", fig.height = 5, fig.align='center', warning=FALSE, fig.pos = 'H', message=FALSE}
 cardio_top5 <- cardio %>%
   filter(country %in% c( "China", "India", "Russia", "United States", "Indonesia"))
-
-
 table_cardio <-  cardio_top5 %>%
   group_by(country)%>%
   summarise(mean = mean(cardio_num, na.rm = TRUE),
             max = max(cardio_num, na.rm = TRUE)) %>%
   arrange(-max)
-
 table_cardio%>%
     kable(caption = "The top 5 countries by death of Cardiovascular diseases")%>%
     kable_styling(full_width = FALSE, position = "center",latex_options = "hold_position")
-
 ```
+
 ```{r graphtop5cardio, echo=FALSE ,out.width = "80%", fig.height = 5, fig.align='center', fig.cap= "The 5 countries with the highest death from Cardiovascular diseases", warning=FALSE, fig.pos = 'H', message=FALSE}
 graph <-  cardio_top5 %>%
   group_by(country)%>%
   ggplot() +
   geom_line(aes(x = Year, y = cardio_num, color = country)) +
   ylab("Number of death") + xlab("Year") + ggtitle("The 5 countries with the highest death from Cardiovascular diseases") +scale_y_continuous(labels = scales::comma)
-
-
 graph
 ```
 
-The number of deaths from cardiovascular diseases from 1990 to 2019 in Figure \@ref(fig:worldtrendcardio) shows a significant positive trend and is likely to continue to increase. Table \@ref(tab:tabletop5cardio) illustrates the top 5 countries with the highest death from cardiovascular diseases including China, India, Russia, the United States, and Indonesia, respectively.  Moreover, @zhang_2021_healthy investigated people dying from cardiovascular disease in China are described by the high-salt food, high cholesterol, and high smoking rate. @yang_2015_cardiovascular argue that around 17% of the number of death by cardiovascular diseases were due to ambient temperature and the number of death from cold temperatures more than heat temperatures. These studies can support the result of China in Figure \@ref(fig:graphtop5cardio).
+The number of deaths from cardiovascular diseases from 1990 to 2019 in Figure \@ref(fig:worldtrendcardio) shows a significantly positive trend and is likely to continue to increase. Table \@ref(tab:tabletop5cardio) illustrates the top 5 countries with the highest death from cardiovascular diseases including China, India, Russia, the United States, and Indonesia, respectively.  Moreover, @zhang_2021_healthy investigated people dying from cardiovascular disease in China are described by the high-salt food, high cholesterol, and high smoking rate. @yang_2015_cardiovascular argue that around 17% of the number of death by cardiovascular diseases were due to ambient temperature and the number of death from cold temperatures more than heat temperatures. These studies can support the result of China in Figure \@ref(fig:graphtop5cardio).
 Furthermore, figure 2 shows India and Indonesia are positive trend like China because 35 % of Indian adults are smoking (@prabhakaran_2016_cardiovascular) and  26.6 % of Indonesian adults aged 40 years (@maharani_2019_cardiovascular).
 
 In the contrast, Russia has decreasing trend since 2005 because Russia has National Priority Project ‘Health’ to increase the modern treatment and prevention of cardiovascular diseases (@pogosova_2016_positive). Moreover, the proportions of smokers in Russia are less than 50 percent which makes the decreasing trend in the number of deaths in Russia (@lakunchykova_2020_why). Furthermore, @zhang_2021_healthy investigate healthy lifestyle factors such as non-smoking, exercise, eating some healthy food, and don’t drink alcohol can reduce the mortality rate of cardiovascular in the USA that is related with our result that the trend of death starts to decrease around 2004. However, it will back to increase because some US populations have been unable access to cardiovascular treatment(@mensah_2017_decline). 
 
-
+Above mention, the trend of cardiovascular diseases is increasing trend or decreasing trend depends on the organization of preventing cardiovascular in each country and healthy lifestyle factors of people, such as smoking, exercise, healthy eating, and drinking alcohol. 
 
 \clearpage
 
@@ -181,4 +415,25 @@ Cardiovascular part
 
 The government should create a project or have some organization to support and prevent cardiovascular diseases. Moreover, they should make a policy for people to reduce or stop smoking such as increasing the tax on cigarettes for making people can't afford cigarettes.
 
+
+Malarir part:
+Countries with high malaria death rate should establish a reporting system, so that every case is traceable, hence population living in malaria prevalent area can take precautions immediately.
+
+
+The world is making progress on HIV/AIDS death prevention, demonstrated by the decreasing death rates. Antiretroviral treatment (HRT) has been the key to avert deaths from HIV/AIDS. Strict adherence to other measures including contraception and education can dramatically slow the disease's progress  and prevent secondary infections. 
+
 \clearpage
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+
+
