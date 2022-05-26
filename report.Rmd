@@ -94,6 +94,10 @@ Research Questions:
 
 \clearpage
 
+## HIV/AIDS 
+
+@cai2009stability discussed tt is estimated that 38.6 million population is currently living with HIV infection. After several infection stages, AIDS would be developed. 
+
 ## Death rates of **HIV / AIDS** in the world  
 
 ```{r HIV_AIDS,  echo = FALSE, message = FALSE, warning = FALSE }
@@ -243,7 +247,7 @@ To further prevent HIV/AIDS, contraception needs to be 'at the centre of the HIV
 
 Education also needs to be at the forefront of preventive measures as many people in developing countries are unaware of preventative measures for HIV/AIDS, @baxen2004researching.
 
-##Conclusion 
+## Conclusion 
 
 The world is making progress on HIV/AIDS death prevention, demonstrated by the decreasing death rates. Antiretroviral treatment (HRT) has been the key to avert deaths from HIV/AIDS. Strict adherence to other measures including contraception and education can dramatically slow the disease's progress  and prevent secondary infections. 
 
