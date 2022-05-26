@@ -84,16 +84,17 @@ Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
 
 ### Introduction : 
 Nutritional deficiency occurs when the body is not getting enough nutrients such as vitamins and minerals. There are a number of conditions that are caused by nutritional deficiency such as Malnutrition or even more severe conditions like Anemia. According to World Health Organisation(WHO), about 2 billion people globally suffer from Nutritional Deficiencies.  
-The original dataset is filtered to show details of various countries and the death numbers over these years for Nutritional Deficiencies.  
+  
 
 @khan2010nutritional says that children are the most visible victims of nutritional deficiencies. Poor nutrition contributes to 35% of the 9.2 million child deaths each year globally.
 
+
 The three research questions that I will look to answer with this data are :   
-**How have death from Nutritional Deficiencies changed over time in the world ?**  
-**What are the top 5 countries with the highest death rates from Nutritional Deficiencies and the death trends for those countries?**  
-**What are the preventative measures these countries can incorporate to prevent further deaths for Nutritional Deficiencies?**  
+Q1 **How have death from Nutritional Deficiencies changed over time in the world ?**  
+Q2 **What are the top 5 countries with the highest death rates from Nutritional Deficiencies and the death trends for those countries?**  
+Q3 **What are the preventative measures these countries can incorporate to prevent further deaths for Nutritional Deficiencies?**  
 
-
+The original data-set is taken from the website **"Our World in data"** and is then filtered to show details of various countries and the death numbers over these years for Nutritional Deficiencies.
 
 ```{r, echo=FALSE, message=FALSE}
 #reading the data
@@ -131,28 +132,24 @@ data1 <- data %>%
 # Worldwide trend
 
 
-```{r global, echo = FALSE, message = FALSE, dpi=300, out.width = '70%'}
-graph <- data1 %>% filter (Country == "World")
-
-graph1 <-  graph  %>% 
+```{r plots, echo = FALSE, message = FALSE, fig.pos = 'H', fig.align = "center", fig.width = 6, fig.cap = "The death trends since 1990"}
+data1 %>% filter (Country == "World") %>% 
   ggplot(aes(x= Year, 
              y = Nutritional_deficiency_deaths))+
    geom_line(color = "blue") +
   ylab("Total_deaths") + xlab("Year") + ggtitle("The trend of Nutritional Deficiency deaths worldwide from 1990") + scale_y_continuous(labels = scales::comma)
 
-graph1
-
 ```
 
 
 
-The graph \@ref(fig:global) shows the worldwide trend of Nutritional Deficiencies from the year 1990. The trend is downward which means that the number of deaths have decreased over these years.
+The graph \@ref(fig:plots) shows the worldwide trend of Nutritional Deficiencies from the year 1990. The trend is downward which means that the number of deaths have decreased over these years.
 
 
 
 
 @perez2003nutrition mentions that Health promotion from the early stages in life by fostering healthy eating practices and regular physical activity has had the potential for a major impact on health and well-being during childhood and later stages in life resulting in decreasing deaths. 
-This article also mentions that Other features that contribute to gain effectiveness are the provision of adequate time and intensity for the intervention, involvement of families, particularly for younger children, and incorporation of self-assessment and feedback in interventions for older children.  
+It also mentions that Other features that contribute to gain effectiveness are the provision of adequate time and intensity for the intervention, involvement of families, particularly for younger children, and incorporation of self-assessment and feedback in interventions for older children.  
 
 # Top 5 countries with highest average  death rates
 
@@ -168,19 +165,21 @@ Highest_countries1 <- data2 %>%
 ```
 
 
-```{r top5countries, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 Highest_countries <- Highest_countries1 %>% 
   mutate_if(is.numeric, round, digits=0)
-
-knitr::kable(head(
-Highest_countries,5), booktabs = TRUE)
-
 ```
 
 
+Table \@ref(tab:topcountries) tabulates the top 5 countries that have had the maximum deaths. India is at the top with a staggeringly high number followed by Ethiopia, Bangladesh, North Korea and Indonesia. As we can see, these are developing countries and not developed countries which are not backed by super-strong economies.
 
-The table \@ref(tab:top5countries) tabulates the top 5 countries that have had the maximum deaths. India is at the top with a staggeringly high number followed by Ethiopia, Bangladesh, North Korea and Indonesia.
 
+```{r topcountries, echo = FALSE, message = FALSE, fig.pos = 'H'}
+Highest_countries %>% 
+  filter(Country%in%c("India", "Ethiopia", "Bangladesh", "North Korea",  "Indonesia")) %>%
+  kbl(caption = "Countries with the highest average death rates") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
 
 
 
@@ -191,28 +190,29 @@ deaths_top5 <- data1 %>%
 ```
 
 
-# Top 5 countries
+
+# Graphically comparing the death rates in these countries
 
 
-```{r topcountries, echo = FALSE, dpi=300, out.width = '70%'}
+```{r graphs, echo = FALSE, fig.pos = 'H', fig.align = "center", fig.width = 6, fig.cap = "Top 5 countries"}
 plot <-  deaths_top5 %>%
   group_by(Country) %>%
   ggplot() +
   geom_line(aes(x = Year, y = Nutritional_deficiency_deaths, color = Country)) +
-  ylab("Number of death") + xlab("Year") + ggtitle("Top 5 countries with highest death rates due to Nutritional Deficiencies")
+  ylab("Number of death") + xlab("Year") + ggtitle("Graphical Interpretation of the death rates of top 5 countries")
 
 plot
 ```
 
 
 
-\@ref(fig:topcountries) graphically represents these countries. India has an exponentially downward decline over the years. This trend is similar for other countries and the death rate has more or less reached the same level for these countries in the recent past.  
+Figure \@ref(fig:graphs) graphically represents these countries. India has an exponentially downward decline over the years. This trend is similar for other countries and the death rate has more or less reached the same level for these countries in the recent past.  
 
 ## Reasons :  
  
-Although the graph is a positive decline in the trends, there are several reasons as to why these countries have suffered the most :
-* Poverty, lack of purchasing power, household food insecurity, and limited general knowledge about appropriate nutritional practices.
-* Inadequate maternal and child care, household food insecurity, and poor health services in an unhealthy environment.  
+* Although the graph is a positive decline in the trends, there are several reasons as to why these countries have suffered the most
+* Poverty, lack of purchasing power, household food insecurity and limited general knowledge about appropriate nutritional practices.
+* Inadequate maternal and child care, household food insecurity, and poor health services in an unhealthy environment.
 
 ## Preventative Measures :  
 * Education programs to encourage healthier and more nutritious food choices
@@ -221,7 +221,7 @@ Although the graph is a positive decline in the trends, there are several reason
 
 # Conclusion :  
 
-The overall trend of Nutritional Deficiency death is a decreasing one. This means that more countries over the world are embracing the concept and importance of a healthy and balanced diet. @bernert2007nutritional conclude that nutritional deficiencies  require rigorous medical follow-up and multi-disciplinary collaboration between nutritionists, surgeons, dieticians and obstetricians.
+The overall death trend of Nutritional Deficiency  is a decreasing one. This means that more countries over the world are embracing the concept and importance of a healthy and balanced diet. @bernert2007nutritional conclude that nutritional deficiencies  require rigorous medical follow-up and multi-disciplinary collaboration between nutritionists, surgeons, dieticians and obstetricians.
 
 
 
