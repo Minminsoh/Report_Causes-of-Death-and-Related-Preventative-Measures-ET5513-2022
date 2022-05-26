@@ -73,8 +73,6 @@ The library packages used in our research consist of:
 
 ```{r readdata, , echo = FALSE, message = FALSE, warning = FALSE}
 Data <- read_csv("Data/annual-number-of-deaths-by-cause.csv")
-
-
 ```
 \clearpage
 
@@ -102,7 +100,6 @@ data <- read_csv(here::here("Data/test1.csv"))
 data1 <- data %>%
   rename(Nutritional_deficiency_deaths = "Deaths - Nutritional deficiencies - Sex: Both - Age: All Ages (Number)",
          Country = "Entity")
-
 #removing unwanted observations
  data2<- data1 %>% 
    select(Country,Year, Nutritional_deficiency_deaths) %>%
@@ -121,7 +118,6 @@ data1 <- data %>%
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-
  Nutr_def_data <- data2 %>%
   select(Country, Year, Nutritional_deficiency_deaths) %>%
   group_by(Country, Year) %>%
@@ -138,7 +134,6 @@ data1 %>% filter (Country == "World") %>%
              y = Nutritional_deficiency_deaths))+
    geom_line(color = "blue") +
   ylab("Total_deaths") + xlab("Year") + ggtitle("The trend of Nutritional Deficiency deaths worldwide from 1990") + scale_y_continuous(labels = scales::comma)
-
 ```
 
 
@@ -156,12 +151,10 @@ It also mentions that Other features that contribute to gain effectiveness are t
 
 ```{r top5, echo = FALSE, message = FALSE}
 #top  countries with highest average  death rates
-
 Highest_countries1 <- data2 %>%
          group_by(Country) %>%
           summarise(Average_deaths = mean(Nutritional_deficiency_deaths, na.rm = TRUE)) %>%
   arrange(-Average_deaths)
-
 ```
 
 
@@ -200,7 +193,6 @@ plot <-  deaths_top5 %>%
   ggplot() +
   geom_line(aes(x = Year, y = Nutritional_deficiency_deaths, color = Country)) +
   ylab("Number of death") + xlab("Year") + ggtitle("Graphical Interpretation of the death rates of top 5 countries")
-
 plot
 ```
 
